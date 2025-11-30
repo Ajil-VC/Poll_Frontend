@@ -1,0 +1,10 @@
+<header class="header">
+  <div class="logo" (click)="toggleChat('poll')">
+    <img src="poll_logo.png" alt="">
+  </div>
+
+  <!-- Only show this icon on mobile -->
+  <div class="chat-icon" (click)="toggleChat('chat')" *ngIf="isMobile">
+    <img src="chat_icon.png" alt="💬">
+  </div>
+</header>

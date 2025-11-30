@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+:root {
+
+    --primary: #131b1d;
+    --secondary: #3e4a56;
+    --light: #d9e5ed;
+}
+
+body {
+
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: var(--light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+

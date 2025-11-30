@@ -1,0 +1,15 @@
+<div class="login-wrapper">
+    <div class="login-container">
+        <h2>Sign-Up</h2>
+
+        <input type="email" [(ngModel)]="email" placeholder="Enter email" class="form-control">
+        <input type="password" [(ngModel)]="password" placeholder="Enter password" class="form-control">
+
+        <button class="btn-login" (click)="onSubmit()">signup</button>
+
+        <div class="extra-link">
+            Already have an account?
+            <a [routerLink]="['/login']">Login</a>
+        </div>
+    </div>
+</div>

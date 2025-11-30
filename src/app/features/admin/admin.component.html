@@ -1,0 +1,44 @@
+<div class="poll-container">
+
+    <!-- Poll List Section -->
+    <h2 class="title">Created Polls</h2>
+
+    <div *ngFor="let poll of polls" class="poll-card">
+        <h3>{{ poll.question }}</h3>
+
+        <button class="poll-url" (click)="copyUrl(poll.url)">Copy url</button>
+
+    </div>
+
+    <!-- Button to create new poll -->
+    <button class="create-btn" (click)="showForm = true">
+        + Create New Poll
+    </button>
+
+    <!-- Create Poll Form -->
+    <div class="form-overlay" *ngIf="showForm">
+        <div class="form-box">
+
+            <h2>Create New Poll</h2>
+
+            <!-- Question Input -->
+            <label>Question</label>
+            <input type="text" [(ngModel)]="newPoll.question" placeholder="Enter poll question" />
+
+            <!-- Options -->
+            <div class="option-row" *ngFor="let opt of newPoll.options; let i = index;">
+                <input type="text" [(ngModel)]="newPoll.options[i]" placeholder="Option text" />
+                <button (click)="removeOption(i)">X</button>
+            </div>
+
+            <button class="add-option-btn" (click)="addOption()">+ Add Option</button>
+
+            <!-- Actions -->
+            <div class="actions">
+                <button class="cancel" (click)="showForm = false">Cancel</button>
+                <button class="create" (click)="createPoll()">Create</button>
+            </div>
+        </div>
+    </div>
+
+</div>

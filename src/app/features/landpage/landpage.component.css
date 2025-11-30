@@ -1,0 +1,34 @@
+.landpage-container {
+
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--primary);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+img {
+    width: 200px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.buttons button {
+    width: 100px;
+    background-color: var(--light);
+    border: 0;
+    padding: 3px;
+    color: var(--primary);
+    margin-bottom: 10px;
+    cursor: pointer;
+}

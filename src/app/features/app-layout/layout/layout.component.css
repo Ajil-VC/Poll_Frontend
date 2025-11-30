@@ -1,0 +1,25 @@
+.container {
+    width: 100vw;
+    height: calc(100vh - 60px);
+}
+
+/* DESKTOP SPLIT VIEW */
+.desktop-layout {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.chat-section {
+    width: 35%;
+    border-right: 1px solid #ddd;
+}
+
+.poll-section {
+    width: 65%;
+}
+
+/* MOBILE SINGLE VIEW */
+.mobile-layout {
+    height: 100%;
+}
