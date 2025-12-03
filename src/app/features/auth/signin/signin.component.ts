@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -17,6 +17,7 @@ export class SigninComponent {
   password: string = '';
   authService = inject(AuthService);
   toast = inject(ToastrService);
+  router = inject(Router);
 
   signIn() {
 
@@ -28,7 +29,13 @@ export class SigninComponent {
     this.authService.signIn(this.email, this.password).subscribe({
       next: (res) => {
         if (res.status) {
-          console.log(res)
+
+          if (res.data.isAdmin) {
+            this.router.navigate(['app/admin']);
+          } else {
+            this.router.navigate(['app/home']);
+          }
+
         }
       }
     })

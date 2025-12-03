@@ -1,27 +1,30 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, effect, HostListener, inject } from '@angular/core';
 import { HeaderComponent } from "../header/header.component";
-import { ChatComponent } from "../../page/chat/chat.component";
-import { PollComponent } from "../../page/poll/poll.component";
+import { RouterOutlet } from '@angular/router';
+import { LayoutService } from '../../../shared/services/layout/layout.service';
 
 @Component({
   selector: 'app-layout',
-  imports: [CommonModule, HeaderComponent, ChatComponent, PollComponent],
+  imports: [CommonModule, HeaderComponent, RouterOutlet],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
 
-  isMobile = window.innerWidth < 768;
+  layoutSer = inject(LayoutService);
   activePage: 'chat' | 'poll' = 'poll';
+  isMobile = window.innerWidth < 768;
 
   @HostListener('window:resize')
   onResize() {
-    this.isMobile = window.innerWidth < 768;
+    this.layoutSer.onResize(window.innerWidth);
   }
 
-  toggleChat = (view: 'poll' | 'chat') => {
-    this.activePage = view;
+  constructor() {
+    effect(() => {
+      this.isMobile = this.layoutSer.isMobileView();
+    })
   }
 
 }

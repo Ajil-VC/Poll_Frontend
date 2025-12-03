@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { AuthResponse } from '../../../core/types/core.type';
 import { User } from '../../../core/types/user.model';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,27 @@ export class AuthService {
 
   private http = inject(HttpClient);
   private router = inject(Router);
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  $currUser = this.currentUserSubject.asObservable();
 
+  setCurrentUser(user: User) {
+    this.currentUserSubject.next(user);
+  }
+
+  private token = signal<string | null>(localStorage.getItem('authToken'));
+  getToken() {
+    return this.token();
+  }
+
+  setToken(value: string) {
+    localStorage.setItem('authToken', value);
+    this.token.set(value);
+  }
+
+  clearToken() {
+    localStorage.removeItem('authToken');
+    this.token.set(null);
+  }
 
   signUp(email: string, password: string): Observable<AuthResponse<User>> {
     return this.http.post<AuthResponse<User>>(`${environment.apiURL}signup`, { email, password });
@@ -26,11 +46,12 @@ export class AuthService {
       .pipe(
         tap(response => {
           if (!response.token) throw new Error('Token Missing');
+          this.setCurrentUser(response.data);
           localStorage.setItem('authToken', response.token);
+          localStorage.setItem('isAdmin', response.data.isAdmin ? 'admin' : '');
         })
       )
   }
-
 
   refreshToken(): Observable<any> {
     return this.http.post(`${environment.apiURL}refresh-token`, null, {
@@ -42,12 +63,15 @@ export class AuthService {
     )
   }
 
+  authenticateUser(): Observable<AuthResponse<User>> {
+    return this.http.get<AuthResponse<User>>(`${environment.apiURL}authenticate-user`);
+  }
+
 
   logout() {
     localStorage.removeItem('authToken');
-    localStorage.removeItem('forceChangePass');
-    localStorage.removeItem('role');
-    localStorage.removeItem('projectId');
+    localStorage.removeItem('isAdmin');
+
     this.router.navigate(['/login']);
 
     // this.currentUser = null;

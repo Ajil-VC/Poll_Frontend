@@ -5,6 +5,14 @@
     --primary: #131b1d;
     --secondary: #3e4a56;
     --light: #d9e5ed;
+
+    --bg: #f7f9fb;
+    --card: #ffffff;
+    --muted: #8b94a7;
+    --accent: #4e8cff;
+    --bubble-me: #daf1ff;
+    --bubble-other: #ffffff;
+    --shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
 }
 
 body {
@@ -17,5 +25,3 @@ body {
     justify-content: center;
     align-items: center;
 }
-
-

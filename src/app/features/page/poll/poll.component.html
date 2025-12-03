@@ -1,4 +1,27 @@
 <div class="poll">
-    <h2>Poll</h2>
-    <!-- voting UI here -->
+
+    <div class="poll-container">
+        <h2 class="poll-question">{{ poll.question }}</h2>
+
+        <div class="options-list">
+            <div class="option-card" *ngFor="let opt of poll.options; let i = index"
+                [class.selected]="selectedOptionIndex === i" (click)="selectedOptionIndex = i">
+                <div class="option-text">{{ opt.text }}</div>
+
+                <!-- percentage bar wrapper -->
+                <div class="percentage-bar">
+                    <div class="percentage-fill" [style.width.%]="getPercentage(opt.voteCount)"></div>
+
+                    <span class="percent-label" [style.left.%]="getPercentage(opt.voteCount)">
+                        {{ getPercentage(opt.voteCount) }}%
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+        <button class="vote-btn" (click)="castVote()">Submit Vote</button>
+    </div>
+
+
 </div>

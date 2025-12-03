@@ -8,7 +8,6 @@ import { ToastrService } from 'ngx-toastr';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = localStorage.getItem('authToken');
   const router = inject(Router);
-  const injector = inject(Injector);
   const toast = inject(ToastrService);
 
   let cloneReq = req;
@@ -56,19 +55,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
           toast.info(error.error['message']);
           return throwError(() => error);
-        } else if (error.error && error.error['code']) {
-
-          if (error.error.code === "USER_BLOCKED" || error.error.code === "COMPANY_BLOCKED") {
-
-
-            router.navigate(['forbidden'], {
-              state: {
-                message: `${error.error['message']}`,
-                code: 'COMPANY_BLOCKED'
-              }
-            });
-          }
-
         } else {
 
           // loader.hide();
@@ -77,10 +63,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         }
 
       } else if (error.status === 404 || error.status === 400) {
-
-        if (error.status === 400 && error.error.code === 'NOT_ACTIVE_SPRINT') {
-          return throwError(() => new Error('NOT_ACTIVE_SPRINT'));
-        }
         userFriendlyMessage = error.error?.message || 'Something went wrong. Please try again.';
         toast.error(userFriendlyMessage);
       } else if (error.status === 409) {

@@ -1,4 +1,42 @@
 <div class="chat">
-    <h2>Chat</h2>
-    <!-- messages here -->
+
+
+    <div class="chat-grid">
+
+        <!-- CHAT AREA -->
+        <section class="chat-area">
+            <div class="messages" #messagesContainer>
+                <div *ngFor="let m of messages" class="message-row" [class.me]="m.user.id === currentUser?.id">
+                    <div class="msg-avatar" *ngIf="m.user.id !== currentUser?.id">{{ m.user.email[0] }}</div>
+
+                    <div class="msg-body">
+                        <div class="msg-meta">
+                            <span class="msg-name">{{ m.user.id === currentUser?.id ? 'You' : m.user.email }}</span>
+                            <span class="msg-time">{{ formatTime(m.createdAt?.toString()) }}</span>
+                        </div>
+                        <div class="msg-text">{{ m.message }}</div>
+                    </div>
+
+                    <div class="msg-avatar me" *ngIf="m.user.id === currentUser?.id">{{ m.user.email[0] }}</div>
+                </div>
+
+                <!-- typing indicator -->
+                <div class="typing" *ngIf="typingUsers.length">
+                    <div class="dot" *ngFor="let t of typingUsers"></div>
+                    <div class="typing-text">{{ typingUsers.join(', ') }} typing…</div>
+                </div>
+            </div>
+
+            <!-- footer / input -->
+            <div class="composer">
+                <input type="text" placeholder="Write a message…" [(ngModel)]="newMessage" (input)="onTyping()"
+                    (keydown.enter)="sendMessage(); $event.preventDefault()" />
+                <button class="send-btn" (click)="sendMessage()">Send</button>
+            </div>
+        </section>
+
+    </div>
+
+
+
 </div>

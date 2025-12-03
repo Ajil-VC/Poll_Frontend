@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -15,6 +15,7 @@ export class SignupComponent {
 
   private authService = inject(AuthService);
   private toast = inject(ToastrService);
+  private router = inject(Router);
 
   email: string = '';
   password: string = '';
@@ -29,8 +30,9 @@ export class SignupComponent {
 
     this.authService.signUp(this.email, this.password).subscribe({
       next: (res) => {
+        console.log(res)
         if (res.status) {
-          console.log(res)
+          this.router.navigate(['app/home']);
         }
       }
     });

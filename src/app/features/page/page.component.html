@@ -1,0 +1,22 @@
+<div class="container">
+    <!-- DESKTOP VIEW → Split layout -->
+    <div class="desktop-layout" *ngIf="!isMobile">
+
+        <div class="chat-section">
+            <app-chat></app-chat>
+        </div>
+
+        <div class="poll-section">
+            <app-poll></app-poll>
+        </div>
+
+    </div>
+
+    <!-- MOBILE VIEW → Toggle between chat & poll -->
+    <div class="mobile-layout" *ngIf="isMobile">
+
+        <app-chat *ngIf="activePage === 'chat'"></app-chat>
+        <app-poll *ngIf="activePage === 'poll'"></app-poll>
+
+    </div>
+</div>

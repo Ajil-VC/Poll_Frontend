@@ -26,19 +26,19 @@
             <input type="text" [(ngModel)]="newPoll.question" placeholder="Enter poll question" />
 
             <!-- Options -->
-            <div class="option-row" *ngFor="let opt of newPoll.options; let i = index;">
-                <input type="text" [(ngModel)]="newPoll.options[i]" placeholder="Option text" />
-                <button (click)="removeOption(i)">X</button>
-            </div>
+            <div class="option-row" *ngFor="let opt of newPoll.options; let i = index; trackBy: trackByIndex">
+                <input type=" text" [(ngModel)]="newPoll.options[i]" placeholder="Option text" />
+            <button (click)="removeOption(i)">X</button>
+        </div>
 
-            <button class="add-option-btn" (click)="addOption()">+ Add Option</button>
+        <button class="add-option-btn" (click)="addOption()">+ Add Option</button>
 
-            <!-- Actions -->
-            <div class="actions">
-                <button class="cancel" (click)="showForm = false">Cancel</button>
-                <button class="create" (click)="createPoll()">Create</button>
-            </div>
+        <!-- Actions -->
+        <div class="actions">
+            <button class="cancel" (click)="showForm = false">Cancel</button>
+            <button class="create" (click)="createPoll()">Create</button>
         </div>
     </div>
+</div>
 
 </div>

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { LayoutService } from '../../../shared/services/layout/layout.service';
 
 @Component({
   selector: 'app-header',
@@ -10,5 +11,12 @@ import { Component, Input } from '@angular/core';
 export class HeaderComponent {
 
   @Input() isMobile!: boolean;
-  @Input() toggleChat!: (view: 'chat' | 'poll') => void;
+
+  layoutSer = inject(LayoutService);
+  
+
+  toggleChat(view: 'chat' | 'poll') {
+    this.layoutSer.toggleChat(view);
+  }
+
 }

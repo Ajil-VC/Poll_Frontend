@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '../../shared/services/api/api.service';
+import { ToastrService } from 'ngx-toastr';
+import { Poll } from '../../core/types/poll.model';
 
 @Component({
   selector: 'app-admin',
@@ -12,22 +15,30 @@ export class AdminComponent {
 
 
   showForm = false;
+  api = inject(ApiService);
+  toast = inject(ToastrService);
 
-  polls: any[] = [
-    {
-      question: "Who should be the team lead?",
-      options: [
-        { text: "John", voteCount: 10 },
-        { text: "Emma", voteCount: 7 }
-      ],
-      url: "https://yourapp.com/poll/7823bdfs"
-    }
-  ];
+  polls: Poll[] = [];
 
   newPoll = {
     question: "",
     options: [""]
   };
+
+  ngOnInit() {
+
+    this.api.getAllPolls().subscribe({
+      next: (res) => {
+
+        if (res.status) {
+          this.polls = res.data;
+        }
+      },
+      error: (err) => {
+        this.toast.error('Something went wrong while fetching data');
+      }
+    })
+  }
 
   addOption() {
     this.newPoll.options.push("");
@@ -38,16 +49,25 @@ export class AdminComponent {
   }
 
   createPoll() {
-    const id = Math.random().toString(36).substr(2, 8);
-    const url = `https://yourapp.com/poll/${id}`;
 
     const createdPoll = {
       question: this.newPoll.question,
       options: this.newPoll.options.map(o => ({ text: o, voteCount: 0 })),
-      url
     };
 
-    this.polls.push(createdPoll);
+    this.api.createPoll(this.newPoll.question, this.newPoll.options).subscribe({
+
+      next: (res) => {
+        console.log(res);
+        if (res.status) {
+          this.polls.push(res.data);
+        }
+      },
+      error: (err) => {
+        this.toast.error(err);
+      }
+    })
+
 
     // Reset
     this.newPoll = { question: "", options: [""] };
@@ -57,6 +77,11 @@ export class AdminComponent {
   copyUrl(url: string) {
     navigator.clipboard.writeText(url);
     alert("URL copied!");
+  }
+
+
+  trackByIndex(index: number) {
+    return index;
   }
 
 }
