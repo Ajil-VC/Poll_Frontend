@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { ChatMessage } from '../../../core/types/chat.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -23,6 +23,8 @@ export class ChatComponent {
   private destroy$ = new Subject<void>();
   private subscriptions: Subscription[] = [];
 
+  @ViewChild('messagesContainer') chatWindow!: ElementRef;
+
   api = inject(ApiService);
   socket = inject(SocketService);
   toast = inject(ToastrService);
@@ -36,6 +38,7 @@ export class ChatComponent {
 
   typingUsers: string[] = [];
   newMessage = '';
+  currentPage: number = 1;
   pollId: string | null = null;
 
   // demo/mock data (replace with real store/socket)
@@ -50,6 +53,12 @@ export class ChatComponent {
       .subscribe({
         next: (res) => {
           this.pollId = res;
+          if (!this.pollId) {
+            this.toast.info('Room Id not ready. Please refresh the page');
+            return;
+          }
+          this.getMessages(1, this.pollId);
+          this.scrollToBottom();
         }
       });
 
@@ -65,6 +74,8 @@ export class ChatComponent {
 
     // initial scroll`
     setTimeout(() => this.scrollToBottom(), 0);
+
+
   }
 
   ngOnDestroy(): void {
@@ -74,8 +85,6 @@ export class ChatComponent {
     // Unsubscribe from all subscriptions
     this.subscriptions.forEach(sub => sub.unsubscribe());
 
-    // Disconnect socket
-    this.socket.disconnect();
   }
 
 
@@ -92,7 +101,7 @@ export class ChatComponent {
     // Listen for new messages
     const messageSub = this.socket.onNewMessage().subscribe(
       (message) => {
-        console.log(message);
+
         this.messages.push(message);
         this.scrollToBottom();
       }
@@ -124,7 +133,16 @@ export class ChatComponent {
 
   }
 
+  getMessages(page: number = 1, pollId: string) {
+    this.api.getMessages(page, pollId).subscribe({
+      next: (res) => {
 
+        if (res.status) {
+          this.messages.unshift(...res.data);
+        }
+      }
+    });
+  }
 
   sendMessage() {
 
@@ -133,6 +151,7 @@ export class ChatComponent {
       this.toast.error('Please wait a moment to establish the connection');
       return;
     }
+    if (!text) return;
     this.socket.sendMessage(text, this.pollId);
 
     this.newMessage = '';
@@ -178,6 +197,15 @@ export class ChatComponent {
         }, 50);
       }
     } catch (e) { /* ignore */ }
+  }
+
+  onScroll() {
+    const el = this.messagesContainer.nativeElement;
+    if (el.scrollTop === 0) {
+      if (!this.pollId) return;
+      this.getMessages(++this.currentPage, this.pollId);
+    }
+
   }
 
   formatTime(iso: string | undefined) {

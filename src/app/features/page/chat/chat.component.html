@@ -5,7 +5,7 @@
 
         <!-- CHAT AREA -->
         <section class="chat-area">
-            <div class="messages" #messagesContainer>
+            <div class="messages" #messagesContainer (scroll)="onScroll()">
                 <div *ngFor="let m of messages" class="message-row" [class.me]="m.user.id === currentUser?.id">
                     <div class="msg-avatar" *ngIf="m.user.id !== currentUser?.id">{{ m.user.email[0] }}</div>
 

@@ -40,8 +40,8 @@ export class ApiService {
     return this.http.post<AuthResponse<ChatMessage>>(`${environment.apiURL}message`, { pollId, message });
   }
 
-  getMessages():Observable<AuthResponse<ChatMessage[]>>{
-    return this.http.get<AuthResponse<ChatMessage[]>>(`${environment.apiURL}message`);
+  getMessages(page: number, pollId: string): Observable<AuthResponse<ChatMessage[]>> {
+    return this.http.get<AuthResponse<ChatMessage[]>>(`${environment.apiURL}message?page=${page}&pollId=${pollId}`);
   }
 
 }
