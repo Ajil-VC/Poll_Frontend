@@ -32,10 +32,6 @@ export class ApiService {
     return this.http.get<AuthResponse<Poll>>(`${environment.apiURL}poll/${id}`);
   }
 
-  giveVote(pollId: string, optionId: string): Observable<AuthResponse<Poll>> {
-    return this.http.put<AuthResponse<Poll>>(`${environment.apiURL}poll`, { pollId, optionId });
-  }
-
   sendMessage(pollId: string, message: string): Observable<AuthResponse<ChatMessage>> {
     return this.http.post<AuthResponse<ChatMessage>>(`${environment.apiURL}message`, { pollId, message });
   }

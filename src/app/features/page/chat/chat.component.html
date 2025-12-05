@@ -5,6 +5,13 @@
 
         <!-- CHAT AREA -->
         <section class="chat-area">
+            <!-- typing indicator -->
+            <div class="typing-container">
+                <div class="typing" *ngIf="typingUsers.length">
+                    <div class="dot" *ngFor="let t of typingUsers"></div>
+                    <div class="typing-text">{{ typingUsers.join(', ') }} typing…</div>
+                </div>
+            </div>
             <div class="messages" #messagesContainer (scroll)="onScroll()">
                 <div *ngFor="let m of messages" class="message-row" [class.me]="m.user.id === currentUser?.id">
                     <div class="msg-avatar" *ngIf="m.user.id !== currentUser?.id">{{ m.user.email[0] }}</div>
@@ -20,11 +27,7 @@
                     <div class="msg-avatar me" *ngIf="m.user.id === currentUser?.id">{{ m.user.email[0] }}</div>
                 </div>
 
-                <!-- typing indicator -->
-                <div class="typing" *ngIf="typingUsers.length">
-                    <div class="dot" *ngFor="let t of typingUsers"></div>
-                    <div class="typing-text">{{ typingUsers.join(', ') }} typing…</div>
-                </div>
+
             </div>
 
             <!-- footer / input -->

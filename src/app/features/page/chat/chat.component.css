@@ -114,6 +114,13 @@
 
 
 /* ---------- TYPING INDICATOR ---------- */
+.typing-container{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+
+}
 .typing {
     display: flex;
     align-items: center;

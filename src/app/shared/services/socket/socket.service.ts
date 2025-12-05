@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../../core/types/user.model';
 import { AuthService } from '../auth/auth.service';
 import { ChatMessage } from '../../../core/types/chat.model';
+import { Poll } from '../../../core/types/poll.model';
 
 @Injectable({
   providedIn: 'root'
@@ -124,8 +125,28 @@ export class SocketService {
     });
   }
 
+
+  // Caste Vote
+  casteVote(pollId: string, optionId: string): void {
+    this.socket.emit('poll', { pollId, optionId });
+  }
+
+  // Listen for new polls
+  onNewPolls(): Observable<Poll> {
+    return new Observable(observer => {
+      this.socket.on('new-poll', (poll: Poll) => {
+        observer.next(poll);
+      });
+
+      return () => {
+        this.socket.off('new-message');
+      };
+    });
+  }
+
   // Remove specific listener
   off(eventName: string): void {
     this.socket.off(eventName);
   }
+
 }
