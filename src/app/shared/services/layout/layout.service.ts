@@ -7,6 +7,8 @@ export class LayoutService {
 
   constructor() { }
 
+  isCollapsed = false;
+
   private isMobile = window.innerWidth < 768;
 
   activeView = signal<'chat' | 'poll'>('poll');
@@ -23,5 +25,11 @@ export class LayoutService {
       this.isMobileView.set(false);
     }
   }
+
+
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
 
 }

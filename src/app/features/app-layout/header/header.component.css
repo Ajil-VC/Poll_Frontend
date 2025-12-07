@@ -3,7 +3,7 @@
     height: 60px;
     background: var(--primary);
     padding: 0 16px;
-
+    position: fixed;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -12,16 +12,26 @@
 .logo {
     font-size: 20px;
     font-weight: 600;
+    cursor: pointer;
 }
-.logo img{
+
+.logo img {
     height: 1.5rem;
 }
 
-.chat-icon {
+.options{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.chat-icon,
+.poll-icon {
     font-size: 22px;
     cursor: pointer;
 }
 
-.chat-icon img{
+.chat-icon img, .poll-icon img {
     height: 1.5rem;
 }

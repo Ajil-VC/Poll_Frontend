@@ -4,6 +4,7 @@
 
     --primary: #131b1d;
     --secondary: #3e4a56;
+    --secondary-dark: #37424d;
     --light: #d9e5ed;
 
     --bg: #f7f9fb;
@@ -20,7 +21,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background: var(--light);
+    background: var(--bg);
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,0 +1,11 @@
+<div class="sidebar" [ngClass]="{ 'isCollapsed': isCollapsed }">
+
+    <ul>
+        <li *ngFor="let p of pollList;let i =index" (click)="openPoll(p.id)">
+            <span>{{i + 1}}) {{p.question}}</span>
+        </li>
+
+    </ul>
+    <li class="logout"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></li>
+
+</div>

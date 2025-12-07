@@ -1,9 +1,11 @@
 <!-- Pass the mobile view and toggle function to header -->
+
 <app-header [isMobile]="isMobile">
 </app-header>
 
 <div class="container">
 
+    <app-sidebar></app-sidebar>
     <router-outlet></router-outlet>
 
 </div>

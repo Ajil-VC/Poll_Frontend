@@ -13,10 +13,20 @@ export class HeaderComponent {
   @Input() isMobile!: boolean;
 
   layoutSer = inject(LayoutService);
-  
+
 
   toggleChat(view: 'chat' | 'poll') {
+    
     this.layoutSer.toggleChat(view);
+    if (this.layoutSer.isCollapsed) {
+
+      this.layoutSer.toggleSidebar();
+    }
+  }
+
+  toggleSidebar() {
+    this.layoutSer.toggleSidebar();
+
   }
 
 }

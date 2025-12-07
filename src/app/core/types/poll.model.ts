@@ -15,3 +15,6 @@ export interface Poll {
     expiresAt: Date,
     isActive: Boolean
 }
+
+
+export type ListPoll = Omit<Poll, "options" | "url" | "createdBy" | "createdAt">;

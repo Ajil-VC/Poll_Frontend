@@ -19,11 +19,13 @@ export class SocketService {
 
 
   constructor() {
+    
     this.socket = io(this.url, {
       transports: ['websocket'],
       autoConnect: true,
       auth: {
-        token: this.authSer.getToken()
+        token: this.authSer.getToken(),
+        pollId: ''
       }
     });
 

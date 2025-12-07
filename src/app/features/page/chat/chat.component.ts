@@ -40,27 +40,25 @@ export class ChatComponent {
   newMessage = '';
   currentPage: number = 1;
   pollId: string | null = null;
+  pollId$ = this.api.poll$;
 
-  // demo/mock data (replace with real store/socket)
+
   users: User[] = [];
 
   messages: ChatMessage[] = [];
 
   ngOnInit() {
-
-    this.api.$pollIdObserver
+    this.api.poll$
       .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res) => {
-          this.pollId = res;
-          if (!this.pollId) {
-            this.toast.info('Room Id not ready. Please refresh the page');
-            return;
-          }
-          this.getMessages(1, this.pollId);
+      .subscribe(poll => {
+
+        if (poll.id) {
+          this.pollId = poll.id;
+          this.getMessages(1, poll.id);
           this.scrollToBottom();
         }
       });
+
 
     this.auth.$currUser
       .pipe(takeUntil(this.destroy$))
@@ -74,7 +72,6 @@ export class ChatComponent {
 
     // initial scroll`
     setTimeout(() => this.scrollToBottom(), 0);
-
 
   }
 
@@ -106,7 +103,7 @@ export class ChatComponent {
         this.scrollToBottom();
       }
     );
-
+    this.subscriptions.push(messageSub);
 
     // Listen for users list
     const usersSub = this.socket.onUsersList().subscribe(
@@ -145,6 +142,11 @@ export class ChatComponent {
   }
 
   sendMessage() {
+
+    if (!this.socket.isConnected()) {
+      this.socket.connect();
+      return;
+    }
 
     const text = this.newMessage.trim();
     if (!this.pollId) {

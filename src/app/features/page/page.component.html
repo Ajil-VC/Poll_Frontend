@@ -13,10 +13,11 @@
     </div>
 
     <!-- MOBILE VIEW → Toggle between chat & poll -->
-    <div class="mobile-layout" *ngIf="isMobile">
+    <div class="mobile-layout" *ngIf="isMobile ">
 
         <app-chat *ngIf="activePage === 'chat'"></app-chat>
         <app-poll *ngIf="activePage === 'poll'"></app-poll>
+
 
     </div>
 </div>
