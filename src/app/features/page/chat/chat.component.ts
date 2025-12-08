@@ -147,10 +147,7 @@ export class ChatComponent {
 
   sendMessage() {
 
-    if (!this.socket.isConnected()) {
-      this.socket.connect();
-      return;
-    }
+    this.auth.connectToSocket();
 
     const text = this.newMessage.trim();
     if (!this.pollId) {

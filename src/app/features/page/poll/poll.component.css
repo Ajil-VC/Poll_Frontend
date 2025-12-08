@@ -68,15 +68,16 @@
 }
 
 /* Percentage number at end of bar */
-.percent-label {
-  position: absolute;
-  top: -22px;
-  transform: translateX(-50%);
-  font-size: 13px;
-  font-weight: 600;
-  color: #222;
-  white-space: nowrap;
+.percentage-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  height: 10px;
 }
+
+
 
 /* Button */
 .vote-btn {

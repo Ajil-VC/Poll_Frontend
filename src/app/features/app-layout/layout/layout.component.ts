@@ -4,6 +4,7 @@ import { HeaderComponent } from "../header/header.component";
 import { RouterOutlet } from '@angular/router';
 import { LayoutService } from '../../../shared/services/layout/layout.service';
 import { SidebarComponent } from "../sidebar/sidebar.component";
+import { AuthService } from '../../../shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -13,6 +14,7 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
 })
 export class LayoutComponent {
 
+  auth = inject(AuthService);
   layoutSer = inject(LayoutService);
   activePage: 'chat' | 'poll' = 'poll';
   isMobile = window.innerWidth < 768;
@@ -23,6 +25,8 @@ export class LayoutComponent {
   }
 
   constructor() {
+    this.auth.connectToSocket();
+
     effect(() => {
       this.isMobile = this.layoutSer.isMobileView();
     })

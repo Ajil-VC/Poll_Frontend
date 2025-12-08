@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SocketService } from '../../../shared/services/socket/socket.service';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { LayoutService } from '../../../shared/services/layout/layout.service';
+import { AuthService } from '../../../shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-poll',
@@ -23,6 +24,7 @@ export class PollComponent {
   toast = inject(ToastrService);
   socket = inject(SocketService);
   layout = inject(LayoutService);
+  auth = inject(AuthService);
 
   private subscriptions: Subscription[] = [];
 
@@ -68,8 +70,10 @@ export class PollComponent {
     // Listen for new polls
     const pollSub = this.socket.onNewPolls().subscribe(
       (poll) => {
-        this.poll = poll;
-        this.pollDataResponse.data = this.poll;
+        if (poll.id === this.poll?.id) {
+          this.poll = poll;
+          this.pollDataResponse.data = this.poll;
+        }
       }
     );
 
@@ -96,22 +100,12 @@ export class PollComponent {
 
 
   castVote() {
-    if (this.selectedOptionIndex !== null) {
-      // const selectedOptionId = this.poll.options[this.selectedOptionIndex].id;
-      // if (res.status) {
-      //   this.poll = res.data;
-      //   this.pollDataResponse.data = this.poll;
-      //   this.selectedOptionIndex = this.poll.options.findIndex(item => item.id === selectedOptionId)
-      //   this.toast.success(res.message);
-      // }
-      // this.api.giveVote(this.poll.id, selectedOptionId).subscribe({
-      //   next: (res) => {
+    this.auth.connectToSocket()
 
-      //   },
-      //   error: (err) => {
-      //     this.toast.error('Voting couldnt complete');
-      //   }
-      // })
+    if (this.selectedOptionIndex !== null && this.poll) {
+      const selectedOptionId = this.poll?.options[this.selectedOptionIndex].id;
+      this.socket.casteVote(this.poll?.id, selectedOptionId);
+
     }
   }
 

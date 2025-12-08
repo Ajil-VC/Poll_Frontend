@@ -5,6 +5,7 @@ import { User } from '../../../core/types/user.model';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
+import { SocketService } from '../socket/socket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class AuthService {
 
   private http = inject(HttpClient);
   private router = inject(Router);
+  private socket = inject(SocketService);
+
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   $currUser = this.currentUserSubject.asObservable();
 
@@ -45,12 +48,22 @@ export class AuthService {
     return this.http.post<AuthResponse<User>>(`${environment.apiURL}login`, { email, password })
       .pipe(
         tap(response => {
-          if (!response.token) throw new Error('Token Missing');
+
+          if (!response.token) throw new Error('Token Missing..!');
           this.setCurrentUser(response.data);
           localStorage.setItem('authToken', response.token);
           localStorage.setItem('isAdmin', response.data.isAdmin ? 'admin' : '');
+          this.connectToSocket();
         })
       )
+  }
+
+  connectToSocket() {
+    if (!this.socket.isConnected()) {
+      const token = this.getToken();
+      if (!token) return;
+      this.socket.connect(token);
+    }
   }
 
   refreshToken(): Observable<any> {
@@ -73,9 +86,6 @@ export class AuthService {
     localStorage.removeItem('isAdmin');
 
     this.router.navigate(['/login']);
-
-    // this.currentUser = null;
-    // this.logoutSubject.next();
-    // this.userSubject.next(null);
+    this.socket.disconnect();
   }
 }

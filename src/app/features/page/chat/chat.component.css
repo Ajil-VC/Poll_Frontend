@@ -6,6 +6,8 @@
 .chat-container {
     height: 100%;
     width: 100%;
+    
+    height: calc(100dvh - 60px);
     display: flex;
     justify-content: center;
     padding: 0;

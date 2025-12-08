@@ -11,8 +11,9 @@
                 <!-- percentage bar wrapper -->
                 <div class="percentage-bar">
                     <div class="percentage-fill" [style.width.%]="getPercentage(opt.voteCount)"></div>
-
-                    <span class="percent-label" [style.left.%]="getPercentage(opt.voteCount)">
+                </div>
+                <div class="percentage-wrapper">
+                    <span class="percent-label">
                         {{ getPercentage(opt.voteCount) }}%
                     </span>
                 </div>

@@ -3,7 +3,6 @@ import { io, Socket } from 'socket.io-client';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../../../core/types/user.model';
-import { AuthService } from '../auth/auth.service';
 import { ChatMessage } from '../../../core/types/chat.model';
 import { Poll } from '../../../core/types/poll.model';
 
@@ -12,7 +11,6 @@ import { Poll } from '../../../core/types/poll.model';
 })
 export class SocketService {
 
-  authSer = inject(AuthService);
   private socket: Socket;
   private url = environment.baseUrl;
 
@@ -22,11 +20,7 @@ export class SocketService {
 
     this.socket = io(this.url, {
       transports: ['websocket'],
-      autoConnect: true,
-      auth: {
-        token: this.authSer.getToken(),
-        pollId: ''
-      }
+      autoConnect: false,
     });
 
     // Setup connection event listeners
@@ -49,8 +43,9 @@ export class SocketService {
   }
 
   // Connect to the server
-  connect(): void {
+  connect(token: string): void {
     if (!this.socket.connected) {
+      this.socket.auth = { token };
       this.socket.connect();
     }
   }

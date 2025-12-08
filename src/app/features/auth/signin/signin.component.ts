@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -18,6 +18,14 @@ export class SigninComponent {
   authService = inject(AuthService);
   toast = inject(ToastrService);
   router = inject(Router);
+  route = inject(ActivatedRoute);
+
+  pollId: string | null = null;
+
+  ngOnInit() {
+    this.pollId = this.route.snapshot.queryParamMap.get('pollId');
+
+  }
 
   signIn() {
 
@@ -33,7 +41,11 @@ export class SigninComponent {
           if (res.data.isAdmin) {
             this.router.navigate(['app/admin']);
           } else {
-            this.router.navigate(['app/home']);
+            if (!this.pollId) {
+              this.router.navigate(['app/home']);
+            } else {
+              this.router.navigate(['app/home', this.pollId]);
+            }
           }
 
         }

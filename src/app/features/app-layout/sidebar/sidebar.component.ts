@@ -59,4 +59,7 @@ export class SidebarComponent {
   }
 
 
+  logout() {
+    this.auth.logout();
+  }
 }

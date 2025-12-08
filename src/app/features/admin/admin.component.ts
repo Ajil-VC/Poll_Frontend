@@ -58,7 +58,6 @@ export class AdminComponent {
     this.api.createPoll(this.newPoll.question, this.newPoll.options).subscribe({
 
       next: (res) => {
-        console.log(res);
         if (res.status) {
           this.polls.push(res.data);
         }
