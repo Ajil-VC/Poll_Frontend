@@ -30,10 +30,6 @@ export class PageComponent {
       }
     });
 
-    this.api.$pollObserver
-    .pipe(takeUntil(this.destroy$))
-    .subscribe
-
   }
   ngOnDestroy() {
     this.destroy$.next();

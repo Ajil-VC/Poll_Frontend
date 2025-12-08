@@ -19,7 +19,7 @@ export class SocketService {
 
 
   constructor() {
-    
+
     this.socket = io(this.url, {
       transports: ['websocket'],
       autoConnect: true,
@@ -72,9 +72,9 @@ export class SocketService {
     return this.socket.id;
   }
 
-  // Join with username
-  join(username: string): void {
-    this.socket.emit('join', username);
+  // Join with pollId
+  join(pollId: string): void {
+    this.socket.emit('join-poll', pollId);
   }
 
   // Send a message
@@ -99,6 +99,7 @@ export class SocketService {
       };
     });
   }
+
 
 
   // Listen for users list

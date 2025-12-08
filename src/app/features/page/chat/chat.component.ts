@@ -8,6 +8,7 @@ import { User } from '../../../core/types/user.model';
 import { SocketService } from '../../../shared/services/socket/socket.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../shared/services/auth/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -29,6 +30,7 @@ export class ChatComponent {
   socket = inject(SocketService);
   toast = inject(ToastrService);
   auth = inject(AuthService);
+  route = inject(ActivatedRoute);
 
   isMobile = window.innerWidth < 768;
   usersOpen = false;
@@ -40,7 +42,6 @@ export class ChatComponent {
   newMessage = '';
   currentPage: number = 1;
   pollId: string | null = null;
-  pollId$ = this.api.poll$;
 
 
   users: User[] = [];
@@ -48,16 +49,16 @@ export class ChatComponent {
   messages: ChatMessage[] = [];
 
   ngOnInit() {
-    this.api.poll$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(poll => {
 
-        if (poll.id) {
-          this.pollId = poll.id;
-          this.getMessages(1, poll.id);
-          this.scrollToBottom();
-        }
-      });
+    this.route.paramMap.subscribe(params => {
+
+      const pollId = params.get('id');
+      if (pollId) {
+        this.pollId = pollId;
+        this.getMessages(pollId, true);
+        this.scrollToBottom();
+      }
+    });
 
 
     this.auth.$currUser
@@ -130,12 +131,15 @@ export class ChatComponent {
 
   }
 
-  getMessages(page: number = 1, pollId: string) {
-    this.api.getMessages(page, pollId).subscribe({
+  getMessages(pollId: string, initialize: boolean, page: number = 1) {
+    this.api.getMessages(pollId, page).subscribe({
       next: (res) => {
-
         if (res.status) {
-          this.messages.unshift(...res.data);
+          if (initialize) {
+            this.messages = res.data;
+          } else {
+            this.messages.unshift(...res.data);
+          }
         }
       }
     });
@@ -205,7 +209,7 @@ export class ChatComponent {
     const el = this.messagesContainer.nativeElement;
     if (el.scrollTop === 0) {
       if (!this.pollId) return;
-      this.getMessages(++this.currentPage, this.pollId);
+      this.getMessages(this.pollId, false, ++this.currentPage);
     }
 
   }

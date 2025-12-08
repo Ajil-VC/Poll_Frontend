@@ -2,9 +2,11 @@ import { Component, inject } from '@angular/core';
 import { LayoutService } from '../../../shared/services/layout/layout.service';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../shared/services/api/api.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { ListPoll } from '../../../core/types/poll.model';
+import { SocketService } from '../../../shared/services/socket/socket.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,6 +19,9 @@ export class SidebarComponent {
   layout = inject(LayoutService);
   api = inject(ApiService);
   auth = inject(AuthService);
+  socket = inject(SocketService);
+  router = inject(Router);
+  route = inject(ActivatedRoute)
   pollList: ListPoll[] = [];
   destroy$ = new Subject<void>();
 
@@ -27,15 +32,7 @@ export class SidebarComponent {
   ngOnInit() {
 
     this.getPollLists();
-    this.api.$pollObserver
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res) => {
-          if (res) {
-            this.layout.toggleSidebar();
-          }
-        }
-      })
+
   }
   ngOnDestroy() {
 
@@ -55,12 +52,10 @@ export class SidebarComponent {
   }
 
   openPoll(pollId: string) {
-    
-    this.api.fetchPoll(pollId).subscribe({
-      next: (res) => {
-        this.api.selectPoll(res.data);
-      }
-    })
+
+    this.router.navigate(['/app/home', pollId]);
+    this.socket.join(pollId);
+    this.layout.toggleSidebar();
   }
 
 

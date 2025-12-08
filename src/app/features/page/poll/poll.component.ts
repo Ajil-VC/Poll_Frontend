@@ -36,28 +36,29 @@ export class PollComponent {
 
     if (this.pollDataResponse?.status) {
       this.poll = this.pollDataResponse.data;
-      this.api.setPollId(this.poll.id);
+      this.socket.join(this.poll.id);
     }
     this.setupSocketListeners();
 
-    this.api.$pollObserver
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res) => {
-          if (res) {
-            this.poll = { ...res };
+    this.route.paramMap.subscribe(params => {
+
+      const pollId = params.get('id');
+      if (pollId) {
+        this.api.fetchPoll(pollId).subscribe({
+          next: (res) => {
+            this.poll = res.data;
             if (this.pollDataResponse?.status) {
-              this.pollDataResponse.data = { ...res };
+              this.pollDataResponse.data = this.poll;
             }
           }
-        }
-      })
+        })
+      }
+    });
+
   }
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-
-    // Unsubscribe from all subscriptions
     this.subscriptions.forEach(sub => sub.unsubscribe());
 
   }

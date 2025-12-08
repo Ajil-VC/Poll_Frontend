@@ -1,7 +1,7 @@
 <div class="chat">
 
     <div class="chat-container">
-        <div class="chat-grid" *ngIf="pollId$ | async as pollId ; else nopoll">
+        <div class="chat-grid" *ngIf="pollId ; else nopoll">
 
             <!-- CHAT AREA -->
             <section class="chat-area">

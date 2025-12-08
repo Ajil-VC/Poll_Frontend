@@ -14,27 +14,6 @@ export class ApiService {
   constructor() { }
   http = inject(HttpClient);
 
-  private pollIdSubject = new BehaviorSubject<string | null>(null);
-  $pollIdObserver = this.pollIdSubject.asObservable();
-  pollId: string | null = null;
-  setPollId(id: string) {
-    this.pollId = id;
-    this.pollIdSubject.next(id);
-  }
-
-  private selectePollSubject = new BehaviorSubject<Poll | null>(null);
-  $pollObserver = this.selectePollSubject.asObservable();
-  selectPoll(poll: Poll) {
-    this.selectePollSubject.next(poll);
-  }
-
-  poll$ = combineLatest([
-    this.$pollIdObserver,
-    this.$pollObserver
-  ]).pipe(
-    map(([pollId, poll]) => poll || { id: pollId }),
-    filter(p => !!p.id)
-  );
 
   getUserPolls(): Observable<AuthResponse<ListPoll[]>> {
     return this.http.get<AuthResponse<ListPoll[]>>(`${environment.apiURL}poll-list`);
@@ -56,7 +35,7 @@ export class ApiService {
     return this.http.post<AuthResponse<ChatMessage>>(`${environment.apiURL}message`, { pollId, message });
   }
 
-  getMessages(page: number, pollId: string): Observable<AuthResponse<ChatMessage[]>> {
+  getMessages(pollId: string, page: number): Observable<AuthResponse<ChatMessage[]>> {
     return this.http.get<AuthResponse<ChatMessage[]>>(`${environment.apiURL}message?page=${page}&pollId=${pollId}`);
   }
 
