@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, filter, map, Observable, Subject } from 'rxjs';
+import { Observable} from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ListPoll, Poll } from '../../../core/types/poll.model';
 import { AuthResponse } from '../../../core/types/core.type';

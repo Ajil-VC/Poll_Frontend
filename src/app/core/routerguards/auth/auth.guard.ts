@@ -1,13 +1,9 @@
 import { inject } from '@angular/core';
-import { ActivatedRoute, CanActivateChildFn, Router } from '@angular/router';
-import { GuardService } from '../service/guard.service';
-
+import {  CanActivateChildFn, Router } from '@angular/router';
 
 export const authGuard: CanActivateChildFn = (childRoute, state) => {
 
-  const guardService = inject(GuardService);
   const router = inject(Router);
-  const route = inject(ActivatedRoute);
 
   const pollId = childRoute.params['id'];
 

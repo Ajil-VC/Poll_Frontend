@@ -1,13 +1,11 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
-import { inject, Injector } from '@angular/core';
-import { Router } from '@angular/router';
+import { inject } from '@angular/core';
 import { AuthService } from '../../shared/services/auth/auth.service';
 import { catchError, of, switchMap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = localStorage.getItem('authToken');
-  const router = inject(Router);
   const toast = inject(ToastrService);
 
   let cloneReq = req;
@@ -33,10 +31,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
       } else if (error.status === 401 && !req.url.includes('/refresh-token')) {
         // Try refreshing the token
+
         return authService.refreshToken().pipe(
           switchMap(() => {
-            // Retry original request with new access token
-            const newReq = cloneReq.clone({
+            // Retry original request with new access token\
+
+            const newReq = req.clone({
               setHeaders: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
               }
@@ -59,7 +59,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
           // loader.hide();
           toast.error(error.error['message']);
-          return of();
+          return throwError(() => error);
+          // return of();
         }
 
       } else if (error.status === 404 || error.status === 400) {

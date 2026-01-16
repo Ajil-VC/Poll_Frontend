@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   signIn(email: string, password: string): Observable<AuthResponse<User>> {
-    return this.http.post<AuthResponse<User>>(`${environment.apiURL}login`, { email, password })
+    return this.http.post<AuthResponse<User>>(`${environment.apiURL}login`, { email, password }, { withCredentials: true })
       .pipe(
         tap(response => {
 
