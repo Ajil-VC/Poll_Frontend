@@ -1,0 +1,1 @@
+export type SideMenu = 'chat' | 'poll' | 'new-poll';

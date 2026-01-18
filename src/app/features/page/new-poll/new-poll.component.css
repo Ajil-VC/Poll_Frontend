@@ -1,0 +1,106 @@
+.poll-container {
+    margin-top: 60px;
+    max-width: 700px;
+    padding: 16px;
+    display: flex;
+    width: 100vw;
+    height: 100%;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.pollcar-container {
+    height: calc(100vh - 100px);
+    overflow: scroll;
+}
+
+.poll-card {
+    background: white;
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.poll-card h3 {
+    margin: 0 0 10px 0;
+}
+
+.poll-url {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    background: #f1f1f1;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.create-btn {
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-box {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-row {
+    display: flex;
+    gap: 8px;
+}
+
+.add-option-btn {
+    background: #eee;
+    padding: 8px;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.actions button {
+    padding: 10px 16px;
+    border-radius: 10px;
+}
+
+.cancel {
+    background: #ccc;
+}
+
+.create {
+    background: #28a745;
+    color: white;
+}

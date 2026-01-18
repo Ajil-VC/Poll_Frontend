@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { LayoutService } from '../../../shared/services/layout/layout.service';
+import { SideMenu } from '../../../core/types/activepage';
 
 @Component({
   selector: 'app-header',
@@ -15,8 +16,8 @@ export class HeaderComponent {
   layoutSer = inject(LayoutService);
 
 
-  toggleChat(view: 'chat' | 'poll') {
-    
+  toggleChat(view: SideMenu) {
+
     this.layoutSer.toggleChat(view);
     if (this.layoutSer.isCollapsed) {
 

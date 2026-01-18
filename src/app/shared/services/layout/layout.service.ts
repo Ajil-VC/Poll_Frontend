@@ -1,4 +1,6 @@
 import { Injectable, signal } from '@angular/core';
+import { SideMenu } from '../../../core/types/activepage';
+import { ListPoll } from '../../../core/types/poll.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +13,11 @@ export class LayoutService {
 
   private isMobile = window.innerWidth < 768;
 
-  activeView = signal<'chat' | 'poll'>('poll');
-  isMobileView = signal<boolean>(this.isMobile)
+  activeView = signal<SideMenu>('poll');
+  isMobileView = signal<boolean>(this.isMobile);
+  sidePollsMenu = signal<ListPoll | null>(null);
 
-  toggleChat(view: 'chat' | 'poll') {
+  toggleChat(view: SideMenu) {
     this.activeView.set(view);
   }
 

@@ -10,6 +10,10 @@
             <app-poll></app-poll>
         </div>
 
+        <div class="newpoll-section">
+            <app-new-poll></app-new-poll>
+        </div>
+
     </div>
 
     <!-- MOBILE VIEW → Toggle between chat & poll -->
@@ -17,7 +21,7 @@
 
         <app-chat *ngIf="activePage === 'chat'"></app-chat>
         <app-poll *ngIf="activePage === 'poll'"></app-poll>
-
+        <app-new-poll *ngIf="activePage === 'new-poll'"></app-new-poll>
 
     </div>
 </div>

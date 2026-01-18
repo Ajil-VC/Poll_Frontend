@@ -53,9 +53,13 @@
     white-space: nowrap;
     background-color: var(--secondary);
     width: 320px;
-    margin-bottom: 5px;
+    margin-bottom: 12px;
     border-radius: 10px;
 
+}
+
+.sidebar .main-menu li {
+    margin-bottom: 20px;
 }
 
 .sidebar li:hover {
@@ -64,4 +68,8 @@
 
 .logout {
     background-color: brown !important;
+}
+
+.back-menu {
+    background-color: darkolivegreen !important;
 }

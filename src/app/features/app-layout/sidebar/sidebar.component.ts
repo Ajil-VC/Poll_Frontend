@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { LayoutService } from '../../../shared/services/layout/layout.service';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../shared/services/api/api.service';
@@ -7,6 +7,7 @@ import { AuthService } from '../../../shared/services/auth/auth.service';
 import { ListPoll } from '../../../core/types/poll.model';
 import { SocketService } from '../../../shared/services/socket/socket.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SideMenu } from '../../../core/types/activepage';
 
 @Component({
   selector: 'app-sidebar',
@@ -25,8 +26,21 @@ export class SidebarComponent {
   pollList: ListPoll[] = [];
   destroy$ = new Subject<void>();
 
+  isPolls: boolean = false;
+
   get isCollapsed() {
     return this.layout.isCollapsed;
+  }
+
+  constructor() {
+
+    effect(() => {
+
+      const poll = this.layout.sidePollsMenu();
+      if (poll) {
+        this.pollList.push(poll);
+      }
+    })
   }
 
   ngOnInit() {
@@ -51,10 +65,23 @@ export class SidebarComponent {
     })
   }
 
+  openPage(view: SideMenu) {
+    this.layout.toggleChat(view);
+    if (this.layout.isCollapsed) {
+
+      this.layout.toggleSidebar();
+    }
+  }
+
+
+  showPolls() {
+    this.isPolls = !this.isPolls;
+  }
   openPoll(pollId: string) {
 
     this.router.navigate(['/app/home', pollId]);
     this.socket.join(pollId);
+    this.layout.toggleChat('poll');
     this.layout.toggleSidebar();
   }
 

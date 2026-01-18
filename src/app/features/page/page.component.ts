@@ -5,12 +5,14 @@ import { CommonModule } from '@angular/common';
 import { LayoutService } from '../../shared/services/layout/layout.service';
 import { AuthService } from '../../shared/services/auth/auth.service';
 import { ApiService } from '../../shared/services/api/api.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
+import { NewPollComponent } from "./new-poll/new-poll.component";
+import { SideMenu } from '../../core/types/activepage';
 
 
 @Component({
   selector: 'app-page',
-  imports: [ChatComponent, PollComponent, CommonModule],
+  imports: [ChatComponent, PollComponent, CommonModule, NewPollComponent],
   templateUrl: './page.component.html',
   styleUrl: './page.component.css'
 })
@@ -45,6 +47,6 @@ export class PageComponent {
   }
 
   isMobile = window.innerWidth < 768;
-  activePage: 'chat' | 'poll' = 'poll';
+  activePage: SideMenu = 'poll';
 
 }
