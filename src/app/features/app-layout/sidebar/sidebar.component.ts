@@ -27,7 +27,7 @@ export class SidebarComponent {
   destroy$ = new Subject<void>();
 
   isPolls: boolean = false;
-
+ 
   get isCollapsed() {
     return this.layout.isCollapsed;
   }

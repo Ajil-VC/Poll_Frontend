@@ -9,6 +9,8 @@ import { SocketService } from '../../../shared/services/socket/socket.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthResponse } from '../../../core/types/core.type';
+import { Poll } from '../../../core/types/poll.model';
 
 @Component({
   selector: 'app-chat',
@@ -18,19 +20,23 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ChatComponent {
 
+
   currentUser!: User | null;
   @ViewChild('messagesContainer') messagesContainer!: ElementRef<HTMLDivElement>;
 
   private destroy$ = new Subject<void>();
   private subscriptions: Subscription[] = [];
 
-  @ViewChild('messagesContainer') chatWindow!: ElementRef;
-
   api = inject(ApiService);
   socket = inject(SocketService);
   toast = inject(ToastrService);
   auth = inject(AuthService);
   route = inject(ActivatedRoute);
+
+  @ViewChild('messagesContainer') chatWindow!: ElementRef;
+  pollDataResponse: AuthResponse<Poll> = this.route.snapshot.data['poll'];
+  poll!: Poll | null;
+
 
   isMobile = window.innerWidth < 768;
   usersOpen = false;
@@ -58,6 +64,10 @@ export class ChatComponent {
         this.getMessages(pollId, true);
         this.scrollToBottom();
       }
+
+      if (this.pollDataResponse?.status) {
+        this.poll = this.pollDataResponse.data;
+      }
     });
 
 
@@ -74,6 +84,10 @@ export class ChatComponent {
     // initial scroll`
     setTimeout(() => this.scrollToBottom(), 0);
 
+  }
+
+  get question() {
+    return this.poll ? this.poll.question : '';
   }
 
   ngOnDestroy(): void {

@@ -1,29 +1,42 @@
-.poll-container {
-    margin-top: 60px;
-    max-width: 700px;
-    padding: 16px;
-    display: flex;
-    width: 100vw;
-    height: 100%;
-    flex-direction: column;
-    gap: 20px;
+/* ========================= */
+/* Base Layout (Mobile First) */
+/* ========================= */
 
+.poll-container {
+    height: 100%;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    background: #fafafa;
 }
 
+/* Title */
 .title {
     text-align: center;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
+    padding: 12px;
+    background: #fafafa;
 }
 
-.pollcar-container {
-    height: calc(100vh - 100px);
-    overflow: scroll;
+/* ================= */
+/* Scrollable List */
+/* ================= */
+
+.poll-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
+/* Poll Card */
 .poll-card {
     background: white;
-    width: 100%;
     padding: 16px;
     border-radius: 12px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
@@ -31,25 +44,41 @@
 
 .poll-card h3 {
     margin: 0 0 10px 0;
+    font-size: 16px;
 }
 
 .poll-url {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
     background: #f1f1f1;
     padding: 8px;
     border-radius: 8px;
+    border: none;
+}
+
+/* ================= */
+/* Sticky Footer */
+/* ================= */
+
+.poll-footer {
+    position: sticky;
+    bottom: 0;
+    padding: 12px;
+    background: white;
+    border-top: 1px solid #ddd;
 }
 
 .create-btn {
-    padding: 12px;
+    width: 100%;
+    padding: 14px;
     background: #007bff;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 16px;
 }
+
+/* ================= */
+/* Modal */
+/* ================= */
 
 .form-overlay {
     position: fixed;
@@ -61,6 +90,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
 .form-box {
@@ -79,9 +109,13 @@
     gap: 8px;
 }
 
+.option-row input {
+    flex: 1;
+}
+
 .add-option-btn {
     background: #eee;
-    padding: 8px;
+    padding: 8px 12px;
     border-radius: 8px;
     width: fit-content;
 }
@@ -94,6 +128,7 @@
 .actions button {
     padding: 10px 16px;
     border-radius: 10px;
+    border: none;
 }
 
 .cancel {
@@ -103,4 +138,27 @@
 .create {
     background: #28a745;
     color: white;
+}
+
+/* ================= */
+/* Desktop Adjustments */
+/* ================= */
+
+@media (min-width: 768px) {
+
+    .poll-container {
+        max-width: 900px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .poll-footer {
+        padding: 16px 24px;
+    }
+
+    .create-btn {
+        width: fit-content;
+        padding: 14px 28px;
+        margin-left: auto;
+    }
 }

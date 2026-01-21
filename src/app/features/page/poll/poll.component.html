@@ -1,38 +1,41 @@
 <div class="poll">
 
-    <div class="poll-container" *ngIf="poll">
-        <h2 class="poll-question">{{ poll.question }}</h2>
+    <div class="poll-container" *ngIf="poll; else noPoll">
 
-        <div class="options-list">
-            <div class="option-card" *ngFor="let opt of poll.options; let i = index"
-                [class.selected]="selectedOptionIndex === i" (click)="selectedOptionIndex = i">
-                <div class="option-text">{{ opt.text }}</div>
+        <div class="question-container">
+            <h2 class="poll-question">{{ poll.question }}</h2>
+        </div>
 
-                <!-- percentage bar wrapper -->
-                <div class="percentage-bar">
-                    <div class="percentage-fill" [style.width.%]="getPercentage(opt.voteCount)"></div>
+        <!-- SCROLLABLE AREA -->
+        <div class="poll-content">
+            <div class="options-list">
+                <div class="option-card" *ngFor="let opt of poll.options; let i = index"
+                    [class.selected]="selectedOptionIndex === i" (click)="selectedOptionIndex = i">
+
+                    <div class="option-text">{{ opt.text }}</div>
+
+                    <div class="percentage-bar">
+                        <div class="percentage-fill" [style.width.%]="getPercentage(opt.voteCount)">
+                        </div>
+                    </div>
+
+                    <div class="percentage-wrapper">
+                        <span class="percent-label">
+                            {{ getPercentage(opt.voteCount) }}%
+                        </span>
+                    </div>
                 </div>
-                <div class="percentage-wrapper">
-                    <span class="percent-label">
-                        {{ getPercentage(opt.voteCount) }}%
-                    </span>
-                </div>
-
             </div>
         </div>
 
+        <!-- STICKY BUTTON -->
         <button class="vote-btn" (click)="castVote()">Submit Vote</button>
     </div>
 
-    <div class="no-poll" role="status" aria-live="polite" *ngIf="!poll">
-
-        <div class="no-poll__card">
-            <svg class="no-poll__icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14h-2v-2h2v2zm0-4h-2V6h2v6z" />
-            </svg>
-            <p class="no-poll__text">No Poll is selected</p>
+    <ng-template #noPoll>
+        <div class="no-poll">
+            No Poll Selected
         </div>
-    </div>
-
+    </ng-template>
 
 </div>

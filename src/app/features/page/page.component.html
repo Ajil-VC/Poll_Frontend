@@ -1,27 +1,76 @@
 <div class="container">
-    <!-- DESKTOP VIEW → Split layout -->
-    <div class="desktop-layout" *ngIf="!isMobile">
 
-        <div class="chat-section">
-            <app-chat></app-chat>
+
+    <div class="layout-wrapper" *ngIf="isPollSelected ; else noPoll">
+
+        <!-- DESKTOP VIEW -->
+        <div class="desktop-layout" *ngIf="!isMobile ; else mobileView">
+
+            <ng-container>
+                <ng-container *ngIf="activePage === 'new-poll'; else chatPollLayout">
+                    <div class="newpoll-section">
+                        <app-new-poll></app-new-poll>
+                    </div>
+                </ng-container>
+
+                <ng-template #chatPollLayout>
+                    <div class="chat-section">
+                        <app-chat></app-chat>
+                    </div>
+
+                    <div class="poll-section">
+                        <app-poll></app-poll>
+                    </div>
+                </ng-template>
+            </ng-container>
+
         </div>
 
-        <div class="poll-section">
-            <app-poll></app-poll>
-        </div>
-
-        <div class="newpoll-section">
-            <app-new-poll></app-new-poll>
-        </div>
+        <!-- MOBILE VIEW -->
+        <ng-template #mobileView>
+            <div class="mobile-layout">
+                <app-chat *ngIf="activePage === 'chat'"></app-chat>
+                <app-poll *ngIf="activePage === 'poll'"></app-poll>
+                <app-new-poll *ngIf="activePage === 'new-poll'"></app-new-poll>
+            </div>
+        </ng-template>
 
     </div>
 
-    <!-- MOBILE VIEW → Toggle between chat & poll -->
-    <div class="mobile-layout" *ngIf="isMobile ">
+    <ng-template #noPoll>
 
-        <app-chat *ngIf="activePage === 'chat'"></app-chat>
-        <app-poll *ngIf="activePage === 'poll'"></app-poll>
-        <app-new-poll *ngIf="activePage === 'new-poll'"></app-new-poll>
+        <ng-container *ngIf="activePage === 'new-poll' ; else nopollmsg">
 
-    </div>
+            <div class="desktop-layout" *ngIf="!isMobile">
+                <div class="newpoll-section">
+                    <app-new-poll></app-new-poll>
+                </div>
+            </div>
+
+            <!-- MOBILE VIEW -->
+            <div class="mobile-layout" *ngIf="isMobile">
+                <app-new-poll></app-new-poll>
+            </div>
+
+        </ng-container>
+
+        <ng-template #nopollmsg>
+
+            <div class="no-poll">
+                <div class="no-poll-card">
+                    <div class="no-poll-icon">
+                        <i class="fa-solid fa-square-poll-vertical no-poll-icon"></i>
+                    </div>
+
+                    <h2 class="no-poll-title">No Poll Selected</h2>
+
+                    <p class="no-poll-subtitle">
+                        Select a poll from the list or create a new one to start voting.
+                    </p>
+                </div>
+            </div>
+        </ng-template>
+
+    </ng-template>
+
 </div>

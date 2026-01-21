@@ -1,130 +1,41 @@
 @import '../page.component.css';
 
+/* ROOT */
+.chat {
+    height: 100%;
+    width: 100%;
+}
 
-/* ---------- ROOT STYLES ---------- */
-
+/* CONTAINER — DO NOT CENTER */
 .chat-container {
     height: 100%;
     width: 100%;
-    
-    height: calc(100dvh - 60px);
     display: flex;
-    justify-content: center;
-    padding: 0;
 }
 
-.chat-grid {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-}
-
-
-/* ---------- CHAT AREA ---------- */
+/* CHAT AREA */
 .chat-area {
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    height: calc(100dvh - 60px);
-    background: #ffffff;
-    border-left: 1px solid #e0e0e0;
+    background: #fff;
     border-right: 1px solid #e0e0e0;
 }
 
-/* messages container */
-.messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-/* each message row */
-.message-row {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    width: 500px;
-}
-
-.message-row.me {
-    justify-content: flex-end;
-}
-
-/* avatar */
-.msg-avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: #4a5cff;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-}
-
-.msg-avatar.me {
-    background: #24c58a;
+.poll-question {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
 }
 
 
-.message-row.me .msg-body {
-    background: #d1e7ff;
-
-}
-
-/* header meta inside bubble */
-.msg-meta {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 4px;
-    font-size: 12px;
-    color: #555;
-}
-
-.msg-name {
-    font-weight: 600;
-}
-
-/* text */
-/* text inside message bubble */
-.msg-text {
-    font-size: 15px;
-    line-height: 1.4;
-    color: #222;
-
-    /* FIX overflow issues */
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: anywhere;
-}
-
-/* bubble itself also must allow wrapping */
-.msg-body {
-    background: #f0f1f5;
-    padding: 10px 14px;
-    border-radius: 14px;
-    max-width: 70%;
-    display: flex;
-    flex-direction: column;
-
-    /* Prevent overflow of long words/URLs */
-    word-wrap: break-word;
-    overflow-wrap: anywhere;
-}
-
-
-
-/* ---------- TYPING INDICATOR ---------- */
+/* TYPING */
 .typing-container {
-    width: 100%;
-    height: 30px;
+    min-height: 65px;
     display: flex;
-    justify-content: center;
-
+    flex-direction: column;
+    align-items: center;
 }
 
 .typing {
@@ -169,10 +80,78 @@
 }
 
 
-/* ---------- COMPOSER / INPUT ---------- */
-.composer {
+
+/* MESSAGES — ONLY SCROLL HERE */
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* MESSAGE ROW */
+.message-row {
+    display: flex;
+    gap: 8px;
+    max-width: 100%;
+}
+
+.message-row.me {
+    justify-content: flex-end;
+}
+
+/* AVATAR */
+.msg-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #4a5cff;
+    color: #fff;
     display: flex;
     align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.msg-avatar.me {
+    background: #24c58a;
+}
+
+/* MESSAGE BUBBLE */
+.msg-body {
+    background: #f0f1f5;
+    padding: 10px 14px;
+    border-radius: 14px;
+    max-width: 75%;
+    display: flex;
+    flex-direction: column;
+    overflow-wrap: anywhere;
+}
+
+.message-row.me .msg-body {
+    background: #d1e7ff;
+}
+
+/* META */
+.msg-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+/* TEXT */
+.msg-text {
+    font-size: 15px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+/* COMPOSER — STICKS TO BOTTOM */
+.composer {
+    display: flex;
     gap: 10px;
     padding: 12px;
     border-top: 1px solid #ddd;
@@ -184,21 +163,6 @@
     padding: 10px 14px;
     border-radius: 20px;
     border: 1px solid #ccc;
-    outline: none;
-    font-size: 15px;
-    background: #f8f8f8;
-}
-
-.composer input:focus {
-    border-color: #4a5cff;
-    background: #fff;
-}
-
-.icon-btn {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
 }
 
 .send-btn {
@@ -208,73 +172,11 @@
     border-radius: 20px;
     color: #fff;
     font-weight: 600;
-    cursor: pointer;
 }
 
-.send-btn:hover {
-    background: #3b4de0;
-}
-
-
-/* ---------- RESPONSIVE (MOBILE) ---------- */
+/* MOBILE */
 @media (max-width: 768px) {
-
-
-    .chat-grid {
-        width: 100%;
-        height: 100dvh;
-        /* FULL SCREEN */
-        grid-template-columns: 1fr;
-        overflow: hidden;
-    }
-
-    .chat-area {
-        border-left: none;
-        border-right: none;
-        height: calc(100dvh - 60px);
-        /* FIX HEIGHT */
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .messages {
-        padding: 0.8rem;
-        width: 100%;
-        flex: 1;
-        overflow-y: auto;
-        box-sizing: border-box;
-        /* prevents overflow */
-    }
-
-    .message-row {
-        width: 100%;
-        /* FULL WIDTH */
-        max-width: 100%;
-        /* NO OVERFLOW */
-        display: flex;
-        flex-wrap: nowrap;
-        /* clean row */
-    }
-
     .msg-body {
-        max-width: 80%;
-        /* Better bubble width */
-        width: fit-content;
-        /* grows only as needed */
-        overflow-wrap: anywhere;
-        word-wrap: break-word;
-        white-space: pre-wrap;
-    }
-
-    .composer {
-        padding: 10px;
-        width: 100%;
-        box-sizing: border-box;
-        background: #fff;
-    }
-
-    .composer input {
-        width: 100%;
+        max-width: 85%;
     }
 }

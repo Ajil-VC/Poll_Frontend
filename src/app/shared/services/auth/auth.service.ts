@@ -59,8 +59,10 @@ export class AuthService {
   }
 
   connectToSocket() {
+    
     if (!this.socket.isConnected()) {
       const token = this.getToken();
+      
       if (!token) return;
       this.socket.connect(token);
     }

@@ -1,57 +1,59 @@
 <div class="chat">
+    <div class="chat-container" *ngIf="pollId; else nopoll">
+        <section class="chat-area">
 
-    <div class="chat-container">
-        <div class="chat-grid" *ngIf="pollId ; else nopoll">
+            <!-- Typing -->
+            <div class="typing-container">
 
-            <!-- <h2 class="poll-question">{{ poll.question }}</h2> -->
-            <!-- CHAT AREA -->
-            <section class="chat-area">
-                <!-- typing indicator -->
-                <div class="typing-container">
-                    <div class="typing" *ngIf="typingUsers.length">
-                        <div class="dot" *ngFor="let t of typingUsers"></div>
-                        <div class="typing-text">{{ typingUsers.join(', ') }} typing…</div>
+                <h2 class="poll-question" *ngIf="isMobile">{{ question }}</h2>
+
+                <div class="typing" *ngIf="typingUsers.length">
+                    <div class="dot" *ngFor="let t of typingUsers"></div>
+                    <div class="typing-text">
+                        {{ typingUsers.join(', ') }} typing…
                     </div>
                 </div>
-                <div class="messages" #messagesContainer (scroll)="onScroll()">
-                    <div *ngFor="let m of messages" class="message-row" [class.me]="m.user.id === currentUser?.id">
-                        <div class="msg-avatar" *ngIf="m.user.id !== currentUser?.id">{{ m.user.email[0] }}</div>
+            </div>
 
-                        <div class="msg-body">
-                            <div class="msg-meta">
-                                <span class="msg-name">{{ m.user.id === currentUser?.id ? 'You' : m.user.email }}</span>
-                                <span class="msg-time">{{ formatTime(m.createdAt?.toString()) }}</span>
-                            </div>
-                            <div class="msg-text">{{ m.message }}</div>
+            <!-- Messages -->
+            <div class="messages" #messagesContainer (scroll)="onScroll()">
+                <div *ngFor="let m of messages" class="message-row" [class.me]="m.user.id === currentUser?.id">
+
+                    <div class="msg-avatar" *ngIf="m.user.id !== currentUser?.id">
+                        {{ m.user.email[0] }}
+                    </div>
+
+                    <div class="msg-body">
+                        <div class="msg-meta">
+                            <span class="msg-name">
+                                {{ m.user.id === currentUser?.id ? 'You' : m.user.email }}
+                            </span>
+                            <span class="msg-time">
+                                {{ formatTime(m.createdAt?.toString()) }}
+                            </span>
                         </div>
-
-                        <div class="msg-avatar me" *ngIf="m.user.id === currentUser?.id">{{ m.user.email[0] }}</div>
+                        <div class="msg-text">{{ m.message }}</div>
                     </div>
 
-
+                    <div class="msg-avatar me" *ngIf="m.user.id === currentUser?.id">
+                        {{ m.user.email[0] }}
+                    </div>
                 </div>
+            </div>
 
-                <!-- footer / input -->
-                <div class="composer">
-                    <input type="text" placeholder="Write a message…" [(ngModel)]="newMessage" (input)="onTyping()"
-                        (keydown.enter)="sendMessage(); $event.preventDefault()" />
-                    <button class="send-btn" (click)="sendMessage()">Send</button>
-                </div>
-            </section>
+            <!-- Composer -->
+            <div class="composer">
+                <input type="text" placeholder="Write a message…" [(ngModel)]="newMessage" (input)="onTyping()"
+                    (keydown.enter)="sendMessage(); $event.preventDefault()" />
+                <button class="send-btn" (click)="sendMessage()">Send</button>
+            </div>
 
-        </div>
+        </section>
     </div>
 
     <ng-template #nopoll>
-        <div class="no-poll" role="status" aria-live="polite">
-            <div class="no-poll__card">
-                <svg class="no-poll__icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14h-2v-2h2v2zm0-4h-2V6h2v6z" />
-                </svg>
-                <p class="no-poll__text">No Poll is selected</p>
-            </div>
+        <div class="no-poll">
+            No Poll Selected
         </div>
     </ng-template>
-
-
 </div>

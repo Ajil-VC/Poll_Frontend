@@ -11,7 +11,7 @@ export const routes: Routes = [
     {
         path: 'app', loadComponent: () => import('./features/app-layout/layout/layout.component').then(m => m.LayoutComponent), canActivateChild: [authGuard],
         children: [
-            { path: 'home', loadComponent: () => import('./features/page/page.component').then(m => m.PageComponent) },
+            { path: 'home', resolve: { poll: pollResolver }, loadComponent: () => import('./features/page/page.component').then(m => m.PageComponent) },
             { path: 'home/:id', resolve: { poll: pollResolver }, loadComponent: () => import('./features/page/page.component').then(m => m.PageComponent) },
             { path: 'admin', loadComponent: () => import('./features/admin/admin.component').then(m => m.AdminComponent) }
         ]

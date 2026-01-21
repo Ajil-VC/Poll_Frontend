@@ -3,11 +3,12 @@
     <ul *ngIf="!isPolls" class="main-menu">
 
         <li (click)="showPolls()"><i class="fa-solid fa-signal"></i> <span>Live Polls</span></li>
+        <li (click)="openPage('chat')"> <i class="fa-solid fa-comments"></i>
+            <span>Discussion</span>
+        </li>
+
         <li (click)="openPage('new-poll')"> <i class="fa-solid fa-square-plus"></i>
             <span>Create New Poll</span>
-        </li>
-        <li (click)="openPage('chat')"> <i class="fa-solid fa-comments"></i>
-            <span>Chat</span>
         </li>
 
         <li class="logout" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></li>
